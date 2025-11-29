@@ -1,0 +1,127 @@
+﻿@model PlataformaEAD.Models.Curso
+@{
+    ViewData["Title"] = "Editar Curso";
+}
+
+<style>
+    :root {
+        --color-primary: #0FC2C0;
+        --color-secondary: #0CABA8;
+        --color-tertiary: #008F8C;
+        --color-dark: #015958;
+        --color-darker: #023535;
+    }
+
+    .page-header-custom {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        margin-bottom: 25px;
+        border-left: 5px solid var(--color-tertiary);
+    }
+
+    .page-header-custom h1 {
+        color: var(--color-darker);
+        margin: 0;
+        font-weight: 700;
+    }
+
+    .form-container {
+        background: white;
+        padding: 35px;
+        border-radius: 12px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+    }
+
+    .form-label {
+        color: var(--color-darker);
+        font-weight: 600;
+    }
+
+    .form-control, .form-select {
+        border: 2px solid #e0e7ee;
+        border-radius: 8px;
+        padding: 10px 15px;
+        color: var(--color-darker);
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--color-secondary);
+        box-shadow: 0 0 0 0.2rem rgba(12, 171, 168, 0.25);
+    }
+
+    .btn-success {
+        background: var(--color-tertiary);
+        border: none;
+        color: white;
+        padding: 10px 25px;
+        font-weight: 600;
+    }
+
+    .btn-success:hover {
+        background: var(--color-dark);
+        color: white;
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        border: none;
+        color: white;
+        padding: 10px 25px;
+        font-weight: 600;
+    }
+
+    .btn-secondary:hover {
+        background: #5a6268;
+    }
+</style>
+
+<div class="page-header-custom">
+    <h1><i class="fas fa-book-open me-2" style="color: var(--color-tertiary);"></i>Editar Curso</h1>
+</div>
+
+<div class="form-container">
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Titulo" class="form-label">Título</label>
+            <input asp-for="Titulo" class="form-control" placeholder="Digite o título do curso" />
+            <span asp-validation-for="Titulo" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Descricao" class="form-label">Descrição</label>
+            <textarea asp-for="Descricao" class="form-control" rows="4" placeholder="Descreva o curso"></textarea>
+            <span asp-validation-for="Descricao" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="CargaHoraria" class="form-label">Carga Horária (horas)</label>
+                <input asp-for="CargaHoraria" class="form-control" type="number" placeholder="Ex: 40" />
+                <span asp-validation-for="CargaHoraria" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <label asp-for="PrecoBase" class="form-label">Preço (R$)</label>
+                <input asp-for="PrecoBase" class="form-control" type="number" step="0.01" placeholder="Ex: 199.90" />
+                <span asp-validation-for="PrecoBase" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save me-2"></i>Salvar Alterações
+            </button>
+            <a class="btn btn-secondary" asp-action="Index">
+                <i class="fas fa-times me-2"></i>Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

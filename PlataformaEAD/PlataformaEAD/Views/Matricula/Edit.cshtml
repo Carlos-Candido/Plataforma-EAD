@@ -1,0 +1,154 @@
+﻿@model PlataformaEAD.Models.Matricula
+@{
+    ViewData["Title"] = "Editar Matrícula";
+}
+
+<style>
+    :root {
+        --color-primary: #0FC2C0;
+        --color-secondary: #0CABA8;
+        --color-tertiary: #008F8C;
+        --color-dark: #015958;
+        --color-darker: #023535;
+    }
+
+    .page-header-custom {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        margin-bottom: 25px;
+        border-left: 5px solid var(--color-primary);
+    }
+
+    .page-header-custom h1 {
+        color: var(--color-darker);
+        margin: 0;
+        font-weight: 700;
+    }
+
+    .form-container {
+        background: white;
+        padding: 35px;
+        border-radius: 12px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+    }
+
+    .info-card {
+        background: var(--color-darker);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        border-left: 4px solid var(--color-primary);
+    }
+
+    .info-card p {
+        margin: 0;
+        color: white;
+    }
+
+    .info-card strong {
+        color: var(--color-primary);
+    }
+
+    .form-label {
+        color: var(--color-darker);
+        font-weight: 600;
+    }
+
+    .form-control, .form-select {
+        border: 2px solid #e0e7ee;
+        border-radius: 8px;
+        padding: 10px 15px;
+        color: var(--color-darker);
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 0.2rem rgba(15, 194, 192, 0.25);
+    }
+
+    .btn-success {
+        background: var(--color-tertiary);
+        border: none;
+        color: white;
+        padding: 10px 25px;
+        font-weight: 600;
+    }
+
+    .btn-success:hover {
+        background: var(--color-dark);
+        color: white;
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        border: none;
+        color: white;
+        padding: 10px 25px;
+        font-weight: 600;
+    }
+
+    .btn-secondary:hover {
+        background: #5a6268;
+    }
+</style>
+
+<div class="page-header-custom">
+    <h1><i class="fas fa-edit me-2" style="color: var(--color-primary);"></i>Editar Matrícula</h1>
+</div>
+
+<div class="info-card">
+    <p><strong>Aluno:</strong> @Model.Aluno?.Nome</p>
+    <p><strong>Curso:</strong> @Model.Curso?.Titulo</p>
+</div>
+
+<div class="form-container">
+    <form asp-action="Edit" method="post">
+        <input type="hidden" name="alunoId" value="@Model.AlunoId" />
+        <input type="hidden" name="cursoId" value="@Model.CursoId" />
+
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Preço Pago (R$)</label>
+                <input name="precoPago" value="@Model.PrecoPago" class="form-control" type="number" step="0.01" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Progresso (%)</label>
+                <input name="progresso" value="@Model.Progresso" class="form-control" type="number" min="0" max="100" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Nota Final (0-10)</label>
+                <input name="notaFinal" value="@Model.NotaFinal" class="form-control" type="number" step="0.1" min="0" max="10" />
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-select">
+                    <option value="@((int)PlataformaEAD.Models.Enums.Status.ATIVO)" selected="@(Model.Status == PlataformaEAD.Models.Enums.Status.ATIVO)">Ativo</option>
+                    <option value="@((int)PlataformaEAD.Models.Enums.Status.CONCLUIDO)" selected="@(Model.Status == PlataformaEAD.Models.Enums.Status.CONCLUIDO)">Concluído</option>
+                    <option value="@((int)PlataformaEAD.Models.Enums.Status.CANCELADO)" selected="@(Model.Status == PlataformaEAD.Models.Enums.Status.CANCELADO)">Cancelado</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save me-2"></i>Salvar Alterações
+            </button>
+            <a class="btn btn-secondary" asp-action="Index">
+                <i class="fas fa-times me-2"></i>Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

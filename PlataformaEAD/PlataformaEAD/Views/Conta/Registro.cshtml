@@ -1,0 +1,585 @@
+@model PlataformaEAD.ViewModels.RegistroViewModel
+@{
+    ViewData["Title"] = "Registro";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <title>@ViewData["Title"] - PlataformaEAD</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --color-primary: #0FC2C0;
+            --color-secondary: #0CABA8;
+            --color-tertiary: #008F8C;
+            --color-dark: #015958;
+            --color-darker: #023535;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            background: var(--color-darker);
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px 15px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Círculos decorativos */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            background: var(--color-dark);
+            border-radius: 50%;
+            top: -225px;
+            right: -225px;
+            opacity: 0.4;
+            animation: float 7s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            background: var(--color-tertiary);
+            border-radius: 50%;
+            bottom: -160px;
+            left: -160px;
+            opacity: 0.3;
+            animation: float 9s ease-in-out infinite reverse;
+            pointer-events: none;
+        }
+
+        @@keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(5deg); }
+        }
+
+        .registro-container {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            max-width: 480px;
+            width: 100%;
+            animation: slideIn 0.6s ease-out;
+            position: relative;
+            z-index: 10;
+        }
+
+        @@keyframes slideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(-30px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        .registro-header {
+            background: var(--color-tertiary);
+            color: white;
+            padding: 45px 30px 35px;
+            text-align: center;
+            position: relative;
+        }
+
+        .registro-header::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: white;
+            border-radius: 50% 50% 0 0;
+        }
+
+        .registro-header i {
+            font-size: 70px;
+            margin-bottom: 15px;
+            color: white;
+            animation: bounce 2s infinite;
+        }
+
+        @@keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .registro-header h2 {
+            margin: 0;
+            font-weight: 700;
+            color: white;
+            font-size: 1.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .registro-header p {
+            color: white;
+            opacity: 0.95;
+            margin-top: 8px;
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .registro-body {
+            padding: 45px 30px 35px;
+        }
+
+        .form-label {
+            color: var(--color-darker);
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            border-radius: 12px;
+            border: 2px solid #e0e7ee;
+            padding: 13px 15px;
+            transition: all 0.3s ease;
+            color: var(--color-darker);
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .form-control:focus {
+            border-color: var(--color-tertiary);
+            box-shadow: 0 0 0 0.25rem rgba(0, 143, 140, 0.15);
+            color: var(--color-darker);
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        .input-group {
+            width: 100%;
+        }
+
+        .input-group-text {
+            background: var(--color-tertiary);
+            border: 2px solid var(--color-tertiary);
+            border-right: none;
+            border-radius: 12px 0 0 12px;
+            color: white;
+            padding: 13px 15px;
+            min-width: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-group .form-control {
+            border-left: 2px solid var(--color-tertiary);
+            border-radius: 0 12px 12px 0;
+            flex: 1;
+        }
+
+        .input-group .form-control:focus {
+            border-left-color: var(--color-tertiary);
+        }
+
+        .btn-registro {
+            background: var(--color-tertiary);
+            border: none;
+            border-radius: 12px;
+            padding: 14px 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            transition: all 0.3s ease;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 143, 140, 0.3);
+            width: 100%;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn-registro:hover {
+            background: var(--color-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 143, 140, 0.4);
+            color: white;
+        }
+
+        .btn-registro:active {
+            transform: translateY(-1px);
+        }
+
+        .text-muted {
+            color: #6c757d !important;
+            font-size: 0.9rem;
+        }
+
+        .text-muted a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .text-muted a:hover {
+            color: var(--color-secondary);
+            text-decoration: underline;
+        }
+
+        .alert {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 2px 10px rgba(220, 53, 69, 0.2);
+            margin-bottom: 20px;
+            padding: 12px 15px;
+            font-size: 0.9rem;
+        }
+
+        .text-danger {
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* ========== MEDIA QUERIES - MOBILE FIRST ========== */
+
+        /* Tablets pequenos e celulares grandes (landscape) */
+        @@media (max-width: 768px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .registro-container {
+                max-width: 100%;
+                border-radius: 20px;
+            }
+
+            .registro-header {
+                padding: 35px 25px 30px;
+            }
+
+            .registro-header i {
+                font-size: 60px;
+            }
+
+            .registro-header h2 {
+                font-size: 1.7rem;
+            }
+
+            .registro-header p {
+                font-size: 0.95rem;
+            }
+
+            .registro-body {
+                padding: 40px 25px 30px;
+            }
+
+            .form-control, .input-group-text {
+                padding: 12px 14px;
+                font-size: 0.95rem;
+            }
+
+            .btn-registro {
+                padding: 13px 18px;
+                font-size: 0.95rem;
+                letter-spacing: 1px;
+            }
+        }
+
+        /* Celulares médios (portrait) */
+        @@media (max-width: 576px) {
+            body {
+                padding: 10px 8px;
+            }
+
+            .registro-container {
+                border-radius: 18px;
+            }
+
+            .registro-header {
+                padding: 30px 20px 25px;
+            }
+
+            .registro-header i {
+                font-size: 50px;
+                margin-bottom: 12px;
+            }
+
+            .registro-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .registro-header p {
+                font-size: 0.9rem;
+                margin-top: 6px;
+            }
+
+            .registro-header::before {
+                height: 25px;
+            }
+
+            .registro-body {
+                padding: 35px 20px 25px;
+            }
+
+            .mb-3, .mb-4 {
+                margin-bottom: 1rem !important;
+            }
+
+            .form-label {
+                font-size: 0.9rem;
+                margin-bottom: 6px;
+            }
+
+            .form-control, .input-group-text {
+                padding: 11px 12px;
+                font-size: 0.9rem;
+            }
+
+            .input-group-text {
+                min-width: 44px;
+            }
+
+            .btn-registro {
+                padding: 12px 16px;
+                font-size: 0.9rem;
+                letter-spacing: 0.8px;
+            }
+
+            .text-muted {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Celulares pequenos (portrait) */
+        @@media (max-width: 400px) {
+            body {
+                padding: 8px 5px;
+            }
+
+            .registro-container {
+                border-radius: 15px;
+            }
+
+            .registro-header {
+                padding: 25px 15px 20px;
+            }
+
+            .registro-header i {
+                font-size: 45px;
+                margin-bottom: 10px;
+            }
+
+            .registro-header h2 {
+                font-size: 1.3rem;
+            }
+
+            .registro-header p {
+                font-size: 0.85rem;
+            }
+
+            .registro-header::before {
+                height: 20px;
+            }
+
+            .registro-body {
+                padding: 30px 15px 20px;
+            }
+
+            .form-label {
+                font-size: 0.85rem;
+            }
+
+            .form-control, .input-group-text {
+                padding: 10px;
+                font-size: 0.85rem;
+                border-radius: 10px;
+            }
+
+            .input-group-text {
+                min-width: 40px;
+                border-radius: 10px 0 0 10px;
+            }
+
+            .input-group .form-control {
+                border-radius: 0 10px 10px 0;
+            }
+
+            .btn-registro {
+                padding: 11px 14px;
+                font-size: 0.85rem;
+                letter-spacing: 0.5px;
+                border-radius: 10px;
+            }
+
+            .text-muted {
+                font-size: 0.8rem;
+            }
+
+            .text-danger {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Celulares muito pequenos */
+        @@media (max-width: 350px) {
+            .registro-header h2 {
+                font-size: 1.2rem;
+            }
+
+            .registro-header i {
+                font-size: 40px;
+            }
+
+            .registro-body {
+                padding: 25px 12px 18px;
+            }
+
+            .form-control, .input-group-text {
+                padding: 9px;
+                font-size: 0.8rem;
+            }
+
+            .btn-registro {
+                padding: 10px 12px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Landscape mode para celulares */
+        @@media (max-height: 500px) and (orientation: landscape) {
+            body {
+                padding: 10px;
+                align-items: flex-start;
+            }
+
+            .registro-container {
+                margin: 10px auto;
+            }
+
+            .registro-header {
+                padding: 20px 25px 15px;
+            }
+
+            .registro-header i {
+                font-size: 40px;
+                margin-bottom: 8px;
+            }
+
+            .registro-header h2 {
+                font-size: 1.3rem;
+            }
+
+            .registro-header p {
+                display: none;
+            }
+
+            .registro-header::before {
+                height: 15px;
+            }
+
+            .registro-body {
+                padding: 25px 25px 20px;
+            }
+
+            .mb-3, .mb-4 {
+                margin-bottom: 0.8rem !important;
+            }
+
+            body::before,
+            body::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="registro-container">
+        <div class="registro-header">
+            <i class="fas fa-user-plus"></i>
+            <h2>Criar Conta</h2>
+            <p class="mb-0">Junte-se à Plataforma EAD</p>
+        </div>
+
+        <div class="registro-body">
+            <form asp-action="Registro" asp-controller="Conta" method="post">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                <div class="mb-3">
+                    <label asp-for="NomeCompleto" class="form-label">Nome Completo</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input asp-for="NomeCompleto" class="form-control" placeholder="João da Silva" autocomplete="name" />
+                    </div>
+                    <span asp-validation-for="NomeCompleto" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input asp-for="Email" class="form-control" placeholder="seu@email.com" autocomplete="email" />
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Senha" class="form-label">Senha</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input asp-for="Senha" class="form-control" placeholder="••••••••" autocomplete="new-password" type="password" />
+                    </div>
+                    <span asp-validation-for="Senha" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="ConfirmarSenha" class="form-label">Confirmar Senha</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input asp-for="ConfirmarSenha" class="form-control" placeholder="••••••••" autocomplete="new-password" type="password" />
+                    </div>
+                    <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-registro mb-4">
+                    <i class="fas fa-user-plus me-2"></i>Criar Conta
+                </button>
+
+                <div class="text-center text-muted">
+                    <small>Já tem uma conta? <a asp-action="Login">Faça login aqui</a></small>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

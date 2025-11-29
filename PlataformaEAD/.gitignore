@@ -1,0 +1,70 @@
+## Build Files
+bin/
+obj/
+out/
+
+## Temp & Logs
+*.log
+*.tmp
+*.temp
+*.cache
+*.db
+*.ds_store
+*.pdb
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Visual Studio Code
+.vscode/
+.history/
+
+## Visual Studio
+.vs/
+
+## ASP.NET Generated
+GeneratedFiles/
+App_Data/
+App_Start/
+
+## Environment
+*.env
+*.env.local
+*.env.development
+*.env.production
+
+## Secrets
+secrets.json
+
+## NuGet
+*.nupkg
+packages/
+.nuget/
+
+## IIS / Hosting
+iisexpress/
+*.vspscc
+*.vssscc
+
+## Configurations
+launchSettings.json
+
+## Entity Framework
+Migrations/*
+!Migrations/Configuration.cs
+*.mdf
+*.ldf
+
+## Rider IDE
+.idea/
+
+## Others
+Thumbs.db
+Desktop.ini
+
+## Angular / SPA Embedding (se tiver)
+ClientApp/node_modules/
+ClientApp/dist/
